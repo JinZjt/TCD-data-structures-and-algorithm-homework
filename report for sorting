@@ -1,0 +1,76 @@
+Report: Sorting
+
+Goals:
+1. Implement some sorting algorithm.
+2. Learn how to implement quicksort.
+3. Learn how to evaluate the performance of sorting algorithm.
+4. Use sorting in a practical application.
+
+Task 1: Quicksort
+
+My quicksort is based on the Hoare partition scheme. In the implementation, the number of swaps in the array and the number of comparisons are recorded.
+
+Data type and result
+1. A randomly shuffled array with no duplicate values e.g. [4, 3, 5, 1, 0, 2]
+	Swaps: 31636
+	Comps: 159593
+2. A randomly shuffled array with duplicate values e.g. [3, 3, 2, 1, 1, 4]
+	Swaps: 28607
+	Comps: 195446
+3. An ascending sorted array e.g. [0, 1, 2, 3, 4, 5]
+	Swaps: 9999
+	Comps: 50014998
+4. A descending sorted array e.g. [5, 4, 3, 2, 1, 0]
+	Swaps: 9999
+	Comps: 50009998
+5. An array where every value is the same (uniform) e.g. [3, 3, 3, 3, 3, 3]
+	Swaps: 9999
+	Comps: 99999999 
+
+From the results above, we can see that quick sort does not have a good performance when dealing with  
+nearly sorted arrays which is the same as ascending sorted arrays. Because in the process of quick sort, it has to change the position of pivot in every partition,  the number of swaps is greater than other sorting algorithms. 
+
+When dealing with uniform arrays, it still has too many swap times, especially compared with bubble sort and insertion sort.
+
+However, in other situations, quick sort performs pretty well. It has the least time complexity, which is O(nlogn).   
+
+Task2: Another sorting algorithm
+
+In this task, bubble sort is implemented.
+
+Data type and result
+1.  A randomly shuffled array with no duplicate values
+	Swaps: 24770746
+	Comps: 99140085
+2.  A randomly shuffled array with duplicate values
+	Swaps: 25115210
+	Comps: 98620137
+3.  An ascending sorted array
+	Swaps: 0
+	Comps: 9999
+4. A descending sorted array
+	Swaps: 49995000
+	Comps: 99990000
+5. An array where every value is the same (uniform)
+	Swaps: 0
+	Comps: 9999
+
+From the results above, we can tell that bubble sort performs much better than quick sort when dealing with ascending arrays and uniform arrays, because bubble sort does not swap in these two situations. It can save a lot of time. Therefore, when sorting a nearly sorted array or a uniform array, bubble sort is a better choice. 
+
+However, when dealing with shuffled arrays and descending sorted arrays, quick sort takes great advantages over bubble sort, because the average time complexity for quick sort is O(nlogn), which is much better than that of bubble sort (O(n^2)).  
+
+Task 3:  Most popular games
+
+Firstly, a single linked list is made to store the information in ign.csv such as game title, platform, score, and year.
+
+Secondly, quick sort is used to sort games based on the score, which is in a descending order.  To find the top games in each year in this ordered list, a search function is needed, which is able to find the games in the target year and print the total information of these games. 
+
+In the list which is already sorted by quicksort in the basis of score, the search function compare each game’s year with the target year from the best to worst. If one game matches, then print the total information of this game.
+
+Finally, use the free function to free the memory of the linked list.
+
+The top 10 games in the last 20 years are as followed.
+
+
+Besides, we can get the result of each year using the search function. For example, the top 5 games in 2012 are shown as followed.
+
