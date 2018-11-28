@@ -23,7 +23,6 @@ typedef struct stack{
     stacknode list[50];
     int top;
 }stack;
-
 typedef struct edgenode{
     int src;
     int dest;
@@ -68,6 +67,7 @@ void pushstack(stack* s, int dist, info i){
 }
 
 void popstack(stack* s){
+    
     while(s->top>-1){
         printf("%d %d %s %f %f\n",s->list[s->top].stopid, s->list[s->top].distance, s->list[s->top].name, s->list[s->top].latitude, s->list[s->top].longitude);
         s->top--;
@@ -211,14 +211,14 @@ void deletegraph(Graph* graph){
 void dijkstra(Graph* graph, int src, int destination) 
 {   
     stack*s;
+    s = (stack*)malloc(sizeof(stack));
     s->top = -1;
     int temp=0;
-    int V = graph->V;// Get the number of vertices in graph 
-    int dist[V];      // dist values used to pick minimum weight edge in cut 
-    int parent[V]; //Store the parant node to keep the shortest track
-    // minHeap represents set E 
+    int V = graph->V;
+    int dist[V];      
+    int parent[V]; 
     MinHeap* minHeap = createMinHeap(V); 
-    // Initialize min heap with all vertices. dist value of all vertices  
+    // Initialization  
     for (int v = 0; v < V; ++v) 
     { 
         dist[v] = INT;
@@ -226,41 +226,28 @@ void dijkstra(Graph* graph, int src, int destination)
         minHeap->array[v] = newMinHeapNode(v, dist[v]); 
         minHeap->position[v] = v; 
     } 
-  
-    // Make dist value of src vertex as 0 so that it is extracted first 
     minHeap->array[src] = newMinHeapNode(src, dist[src]); 
     minHeap->position[src]   = src; 
     dist[src] = 0; 
-    decreaseKey(minHeap, src, dist[src]); 
-    // Initially size of min heap is equal to V 
-    minHeap->size = V; 
-    // In the followin loop, min heap contains all nodes 
-    // whose shortest distance is not yet finalized. 
+    decreaseKey(minHeap, src, dist[src]);
+    minHeap->size = V;  
     while (1) 
     { 
-        // Extract the vertex with minimum distance value 
         MinHeapNode* minHeapNode = extractMin(minHeap); 
         int u = minHeapNode->v; // Store the extracted vertex number 
         //printf("%d %d %s %f %f\n", u, dist[u], information[u].name, information[u].latitude, information[u].longitude);
-        if(u == destination) break;
-        // Traverse through all adjacent vertices of u (the extracted 
-        // vertex) and update their distance values 
-        AdjListNode* pCrawl = graph->array[u].head; 
-        while (pCrawl != NULL) 
+        if(u == destination) break; 
+        AdjListNode* temp = graph->array[u].head; 
+        while (temp != NULL) 
         { 
-            int v = pCrawl->dest; 
-  
-            // If shortest distance to v is not finalized yet, and distance to v 
-            // through u is less than its previously calculated distance 
-            if (isInMinHeap(minHeap, v) && dist[u] != INT &&  
-                                          pCrawl->weight + dist[u] < dist[v]) 
+            int v = temp->dest; 
+            if (isInMinHeap(minHeap, v) && dist[u] != INT && temp->weight + dist[u] < dist[v]) 
             { 
-                dist[v] = dist[u] + pCrawl->weight; 
+                dist[v] = dist[u] + temp->weight; 
                 parent[v]=u;
-                // update distance value in min heap also 
                 decreaseKey(minHeap, v, dist[v]); 
             } 
-            pCrawl = pCrawl->next; 
+            temp = temp->next; 
         } 
     }
     //printf("%d %d %s %f %f\n", destination, dist[destination], information[destination].name, information[destination].latitude, information[destination].longitude);
